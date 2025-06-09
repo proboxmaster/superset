@@ -1,29 +1,18 @@
-import os
+# --- CONFIGURACIÓN DE ÚLTIMO RECURSO ---
+# Escribimos los valores directamente en el código.
 
-# Mensaje 1: Para confirmar que este archivo se está cargando.
-print("--- DEBUG: CARGANDO ARCHIVO superset_config_local.py ---")
+# 1. Base de datos de Metadatos
+SQLALCHEMY_DATABASE_URI = "postgresql://neondb_owner:npg_7KGXYVSi4Amz@ep-lucky-morning-a8gtu4mi-pooler.eastus2.azure.neon.tech/neondb?sslmode=require"
 
-# Mensaje 2: Leemos las variables de entorno de Render.
-SECRET_KEY_FROM_ENV = os.environ.get("SECRET_KEY")
-METADATA_URI_FROM_ENV = os.environ.get("METADATA_DATABASE_URI")
+# 2. Clave Secreta
+SECRET_KEY = "65bca6cb-64de-41f7-8a79-55b62bebe164"
 
-# Mensaje 3: Mostramos en el log lo que encontramos.
-print(f"--- DEBUG: SECRET_KEY encontrada en el entorno: {SECRET_KEY_FROM_ENV}")
-print(f"--- DEBUG: METADATA_URI encontrada en el entorno: {METADATA_URI_FROM_ENV}")
+# 3. Pequeño extra: Forzar que se permita subir archivos CSV
+CSV_TO_DATABASE_UPLOAD = True
 
-# Lógica principal: Si encontramos la llave, la usamos.
-if SECRET_KEY_FROM_ENV:
-    SECRET_KEY = SECRET_KEY_FROM_ENV
-    print("--- DEBUG: EXITO! Se ha sobreescrito la SECRET_KEY desde la variable de entorno.")
-else:
-    # Si no la encontramos, lo decimos claramente.
-    print("--- DEBUG: ERROR! No se pudo encontrar la variable de entorno SECRET_KEY.")
-
-# Lógica para la base de datos
-if METADATA_URI_FROM_ENV:
-    SQLALCHEMY_DATABASE_URI = METADATA_URI_FROM_ENV
-    print("--- DEBUG: EXITO! Se ha sobreescrito la SQLALCHEMY_DATABASE_URI.")
-else:
-    print("--- DEBUG: ERROR! No se pudo encontrar la variable de entorno METADATA_DATABASE_URI.")
-
-print("--- DEBUG: FINALIZADA LA CARGA DE superset_config_local.py ---")
+# --- Mensajes de depuración para confirmar que se carga ---
+print("--- DEBUG v2: Cargando config local HARCODED ---")
+if "SQLALCHEMY_DATABASE_URI" in locals():
+    print(f"--- DEBUG v2: Usando Metadata DB que termina en: ...{SQLALCHEMY_DATABASE_URI[-15:]}")
+if "SECRET_KEY" in locals():
+    print(f"--- DEBUG v2: Usando Secret Key que empieza con: {SECRET_KEY[:5]}...")
